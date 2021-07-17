@@ -457,3 +457,4 @@ $RECYCLE.BIN/
 
 *.db
 API/reactivities.db
+client-app/.vscode/launch.json
