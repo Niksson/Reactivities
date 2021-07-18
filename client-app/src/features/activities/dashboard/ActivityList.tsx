@@ -1,15 +1,13 @@
+import { observer } from "mobx-react-lite";
 import { SyntheticEvent, useState } from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/Activity";
+import { useStore } from "../../../app/stores/store";
 
-interface Props {
-    activities: Activity[];
-    selectActivity: (id: string) => void;
-    deleteActivity: (id: string) => void;
-    submitting: boolean;
-}
+const ActivityList = () => {
 
-const ActivityList = ({activities, selectActivity, deleteActivity, submitting}: Props) => {
+    const {activityStore} = useStore();
+    const {activitiesByDate : activities, deleteActivity, loading} = activityStore;
+
     const [target, setTarget] = useState('');
 
     const handleActivityDelete = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
@@ -30,10 +28,10 @@ const ActivityList = ({activities, selectActivity, deleteActivity, submitting}: 
                                 <div>{activity.city}, {activity.venue}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue'/>
+                                <Button onClick={() => activityStore.selectActivity(activity.id)} floated='right' content='View' color='blue'/>
                                 <Button 
                                     name={activity.id}
-                                    loading={submitting && target === activity.id}
+                                    loading={loading && target === activity.id}
                                     onClick={(e) => handleActivityDelete(e, activity.id)} 
                                     floated='right' 
                                     content='Delete' color='red'/>
@@ -47,4 +45,4 @@ const ActivityList = ({activities, selectActivity, deleteActivity, submitting}: 
     )
 }
 
-export default ActivityList
+export default observer(ActivityList);

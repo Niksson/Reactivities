@@ -1,8 +1,9 @@
+import { observer } from "mobx-react-lite";
 import {Dimmer, Loader} from "semantic-ui-react";
 
 interface Props {
     inverted?: boolean;
-    content: string;
+    content?: string;
 }
 
 const LoadingComponent = ({
@@ -16,4 +17,4 @@ const LoadingComponent = ({
     );
 };
 
-export default LoadingComponent;
+export default observer(LoadingComponent);
